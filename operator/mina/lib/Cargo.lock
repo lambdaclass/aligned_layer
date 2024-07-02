@@ -1138,7 +1138,7 @@ dependencies = [
 [[package]]
 name = "mina-p2p-messages"
 version = "0.6.4"
-source = "git+https://github.com/lambdaclass/openmina.git?branch=fix-time-dependency#f03c3c651fa97955fc0cc13b09e62a627d9f5ec8"
+source = "git+https://github.com/lambdaclass/openmina.git?branch=mina_bridge#aec3611d4043726d867e5ef9fd221f23ce7c948b"
 dependencies = [
  "ark-ff",
  "base64 0.13.1",
@@ -1217,7 +1217,7 @@ dependencies = [
 [[package]]
 name = "mina-tree"
 version = "0.6.0"
-source = "git+https://github.com/lambdaclass/openmina.git?branch=fix-time-dependency#f03c3c651fa97955fc0cc13b09e62a627d9f5ec8"
+source = "git+https://github.com/lambdaclass/openmina.git?branch=mina_bridge#aec3611d4043726d867e5ef9fd221f23ce7c948b"
 dependencies = [
  "anyhow",
  "ark-ec",
@@ -1434,7 +1434,7 @@ checksum = "c08d65885ee38876c4f86fa503fb49d7b507c2b62552df7c70b2fce627e06381"
 [[package]]
 name = "openmina-core"
 version = "0.6.0"
-source = "git+https://github.com/lambdaclass/openmina.git?branch=fix-time-dependency#f03c3c651fa97955fc0cc13b09e62a627d9f5ec8"
+source = "git+https://github.com/lambdaclass/openmina.git?branch=mina_bridge#aec3611d4043726d867e5ef9fd221f23ce7c948b"
 dependencies = [
  "ark-ff",
  "binprot",
@@ -1458,7 +1458,7 @@ dependencies = [
 [[package]]
 name = "openmina-macros"
 version = "0.6.0"
-source = "git+https://github.com/lambdaclass/openmina.git?branch=fix-time-dependency#f03c3c651fa97955fc0cc13b09e62a627d9f5ec8"
+source = "git+https://github.com/lambdaclass/openmina.git?branch=mina_bridge#aec3611d4043726d867e5ef9fd221f23ce7c948b"
 dependencies = [
  "proc-macro2",
  "quote",
