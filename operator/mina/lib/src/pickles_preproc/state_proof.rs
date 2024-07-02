@@ -64,7 +64,7 @@ pub struct Prechallenge {
     // OCaml doesn't support unsigned integers, these should
     // be two u64 limbs but are encoded with a sign.
     // We just need to do a cast to u64.
-    pub inner: [I64; 2],
+    pub inner: [i64; 2],
 }
 
 #[derive(Deserialize)]
@@ -116,7 +116,6 @@ pub struct MessagesForNextWrapProof {
 
 pub type Point = [String; 2]; // hex
 pub type Scalar = String; // hex
-pub type I64 = String; // decimal signed
 
 pub fn parse(proof_json: &serde_json::Value) -> Result<StateProof, String> {
     serde_json::from_value(proof_json.to_owned())
