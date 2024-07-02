@@ -14,10 +14,10 @@ crate-type = ["cdylib", "staticlib", "lib"]
 kimchi = { git = "https://github.com/lambdaclass/proof-systems", branch = "add-verifier-serializations" }
 o1-utils = { git = "https://github.com/lambdaclass/proof-systems", branch = "add-verifier-serializations" }
 mina-tree = { git = "https://github.com/lambdaclass/openmina.git", branch = "fix-time-dependency" }
-#mina-tree = { path = "../../../../openmina/ledger" }
 serde = "1.0.197"
 serde_json = "1.0.119"
 rmp-serde = "1.1.2"
+ark-ff = "0.3"
 
 [patch.crates-io]
 ark-ff = { git = "https://github.com/openmina/algebra", branch = "openmina" }

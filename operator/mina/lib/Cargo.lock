@@ -1034,6 +1034,7 @@ dependencies = [
 name = "kimchi-verifier-ffi"
 version = "0.1.0"
 dependencies = [
+ "ark-ff",
  "kimchi 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
  "mina-tree",
  "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
