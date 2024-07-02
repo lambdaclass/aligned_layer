@@ -53,6 +53,9 @@ fn derive_plonk(plonk: &Plonk) -> DerivedPlonk {
         feature_flags: plonk.feature_flags,
         gamma: plonk.gamma,
         zeta: plonk.zeta,
+        zeta_to_srs_length: todo!(),
+        zeta_to_domain_size: todo!(),
+        perm: todo!(),
     }
 }
 
