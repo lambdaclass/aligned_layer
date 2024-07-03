@@ -1,6 +1,9 @@
 pub mod messages_for_next_step_proof;
+pub mod messages_for_next_wrap_proof;
 pub mod statement;
+pub mod utils;
 
+use messages_for_next_wrap_proof::MessagesForNextWrapProof;
 use serde::Deserialize;
 use statement::Statement;
 
@@ -98,12 +101,6 @@ pub struct FeatureFlags {
     pub rot: bool,
     pub runtime_tables: bool,
     pub xor: bool,
-}
-
-#[derive(Deserialize)]
-pub struct MessagesForNextWrapProof {
-    pub challenge_polynomial_commitment: Point,
-    pub old_bulletproof_challenges: [[BulletproofChallenge; 16]; 2],
 }
 
 pub type Point = [String; 2]; // hex

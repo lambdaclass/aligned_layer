@@ -13,7 +13,10 @@ impl Into<StepStatement> for Statement {
     fn into(self) -> StepStatement {
         StepStatement {
             proof_state: self.proof_state.into(),
-            messages_for_next_wrap_proof: self.proof_state.messages_for_next_wrap_proof.into(),
+            messages_for_next_wrap_proof: vec![self
+                .proof_state
+                .messages_for_next_wrap_proof
+                .into()],
         }
     }
 }
