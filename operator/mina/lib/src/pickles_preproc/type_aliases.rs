@@ -7,7 +7,7 @@ use kimchi::{
 
 // Wrap circuit specific types
 pub type WrapPolyComm = PolyComm<Pallas>;
-pub type WrapVerifierIndex = VerifierIndex<Pallas, WrapOpeningProof>;
-pub type WrapProverProof = ProverProof<Pallas, WrapOpeningProof>;
+pub type WrapVerifierIndex = VerifierIndex<Pallas>;
+pub type WrapProverProof = ProverProof<Pallas>;
 pub type WrapProverCommitments = ProverCommitments<Pallas>;
 pub type WrapOpeningProof = OpeningProof<Pallas>;

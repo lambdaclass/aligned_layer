@@ -395,15 +395,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6245d59a3e82a7fc217c5828a6692dbc6dfb63a0c8c90495621f7b9d79704a0e"
 
 [[package]]
-name = "convert_case"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec182b0ca2f35d8fc196cf3404988fd8b8c739a4d270ff118a398feb0cbec1ca"
-dependencies = [
- "unicode-segmentation",
-]
-
-[[package]]
 name = "core-foundation-sys"
 version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -574,7 +565,7 @@ version = "0.99.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f33878137e4dafd7fa914ad4e259e18a4e8e532b9617a2d0150262bf53abfce"
 dependencies = [
- "convert_case 0.4.0",
+ "convert_case",
  "proc-macro2",
  "quote",
  "rustc_version 0.4.0",
@@ -776,16 +767,6 @@ checksum = "40ecd4077b5ae9fd2e9e169b102c6c330d0605168eb0e8bf79952b256dbefffd"
 [[package]]
 name = "groupmap"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "rand",
-]
-
-[[package]]
-name = "groupmap"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ec",
@@ -848,9 +829,6 @@ name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
-dependencies = [
- "serde",
-]
 
 [[package]]
 name = "iana-time-zone"
@@ -913,24 +891,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "internal-tracing"
-version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-
-[[package]]
 name = "itertools"
 version = "0.10.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
-version = "0.12.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
 dependencies = [
  "either",
 ]
@@ -962,42 +926,6 @@ dependencies = [
 [[package]]
 name = "kimchi"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "ark-poly",
- "ark-serialize",
- "blake2",
- "groupmap 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "hex",
- "internal-tracing",
- "itertools 0.12.1",
- "mina-curves 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "mina-poseidon 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "num-bigint",
- "num-derive 0.4.2",
- "num-integer",
- "num-traits",
- "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "once_cell",
- "poly-commitment 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "rand",
- "rand_core",
- "rayon",
- "rmp-serde",
- "serde",
- "serde_with 3.7.0",
- "snarky-deriver",
- "strum 0.26.2",
- "strum_macros 0.26.2",
- "thiserror",
- "turshi 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
-]
-
-[[package]]
-name = "kimchi"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ec",
@@ -1006,28 +934,28 @@ dependencies = [
  "ark-serialize",
  "blake2",
  "disjoint-set",
- "groupmap 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "groupmap",
  "hex",
- "itertools 0.10.5",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "mina-poseidon 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "itertools",
+ "mina-curves",
+ "mina-poseidon",
  "num-bigint",
- "num-derive 0.3.3",
+ "num-derive",
  "num-integer",
  "num-traits",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "o1-utils",
  "once_cell",
- "poly-commitment 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "poly-commitment",
  "rand",
  "rand_core",
  "rayon",
  "rmp-serde",
  "serde",
  "serde_with 1.14.0",
- "strum 0.24.1",
- "strum_macros 0.24.3",
+ "strum",
+ "strum_macros",
  "thiserror",
- "turshi 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "turshi",
 ]
 
 [[package]]
@@ -1035,9 +963,9 @@ name = "kimchi-verifier-ffi"
 version = "0.1.0"
 dependencies = [
  "ark-ff",
- "kimchi 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
+ "kimchi",
  "mina-tree",
- "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
+ "o1-utils",
  "rmp-serde",
  "serde",
  "serde_json",
@@ -1106,16 +1034,6 @@ checksum = "523dc4f511e55ab87b694dc30d0f820d60906ef06413f93d4d7a1385599cc149"
 [[package]]
 name = "mina-curves"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "num-bigint",
-]
-
-[[package]]
-name = "mina-curves"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ec",
@@ -1129,9 +1047,9 @@ source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-r
 dependencies = [
  "ark-ff",
  "bitvec",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "mina-poseidon 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-curves",
+ "mina-poseidon",
+ "o1-utils",
  "serde",
 ]
 
@@ -1148,11 +1066,11 @@ dependencies = [
  "bs58",
  "derive_more",
  "hex",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-curves",
  "mina-hasher",
- "mina-poseidon 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-poseidon",
  "mina-signer",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "o1-utils",
  "rsexp",
  "serde",
  "serde_json",
@@ -1164,30 +1082,13 @@ dependencies = [
 [[package]]
 name = "mina-poseidon"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "ark-poly",
- "mina-curves 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "once_cell",
- "rand",
- "rayon",
- "serde",
- "serde_with 3.7.0",
-]
-
-[[package]]
-name = "mina-poseidon"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ec",
  "ark-ff",
  "ark-poly",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-curves",
+ "o1-utils",
  "once_cell",
  "rand",
  "rayon",
@@ -1206,9 +1107,9 @@ dependencies = [
  "blake2",
  "bs58",
  "hex",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-curves",
  "mina-hasher",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "o1-utils",
  "rand",
  "sha2 0.10.8",
  "thiserror",
@@ -1234,20 +1135,20 @@ dependencies = [
  "derive_more",
  "getrandom",
  "hex",
- "itertools 0.10.5",
- "kimchi 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "itertools",
+ "kimchi",
  "lazy_static",
  "libc",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-curves",
  "mina-hasher",
  "mina-p2p-messages",
- "mina-poseidon 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "mina-poseidon",
  "mina-signer",
  "num-bigint",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "o1-utils",
  "once_cell",
  "openmina-core",
- "poly-commitment 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "poly-commitment",
  "postcard",
  "rand",
  "rand_pcg",
@@ -1336,17 +1237,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "num-derive"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.58",
-]
-
-[[package]]
 name = "num-integer"
 version = "0.1.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1362,29 +1252,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da0df0e5185db44f69b44f26786fe401b6c293d1907744beaa7fa62b2e5a517a"
 dependencies = [
  "autocfg",
-]
-
-[[package]]
-name = "o1-utils"
-version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "ark-poly",
- "ark-serialize",
- "bcs",
- "hex",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand",
- "rand_core",
- "rayon",
- "serde",
- "serde_with 3.7.0",
- "sha2 0.10.8",
- "thiserror",
 ]
 
 [[package]]
@@ -1522,31 +1389,6 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 [[package]]
 name = "poly-commitment"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ec",
- "ark-ff",
- "ark-poly",
- "ark-serialize",
- "blake2",
- "groupmap 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "itertools 0.12.1",
- "mina-curves 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "mina-poseidon 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
- "once_cell",
- "rand",
- "rand_core",
- "rayon",
- "rmp-serde",
- "serde",
- "serde_with 3.7.0",
- "thiserror",
-]
-
-[[package]]
-name = "poly-commitment"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ec",
@@ -1554,11 +1396,11 @@ dependencies = [
  "ark-poly",
  "ark-serialize",
  "blake2",
- "groupmap 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "itertools 0.10.5",
- "mina-curves 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "mina-poseidon 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "groupmap",
+ "itertools",
+ "mina-curves",
+ "mina-poseidon",
+ "o1-utils",
  "once_cell",
  "rand",
  "rand_core",
@@ -1967,18 +1809,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
 
 [[package]]
-name = "snarky-deriver"
-version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "convert_case 0.6.0",
- "itertools 0.12.1",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
 name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2012,12 +1842,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "063e6045c0e62079840579a7e47a355ae92f60eb74daaf156fb1e84ba164e63f"
 
 [[package]]
-name = "strum"
-version = "0.26.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d8cec3501a5194c432b2b7976db6b7d10ec95c253208b45f83f7136aa985e29"
-
-[[package]]
 name = "strum_macros"
 version = "0.24.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2028,19 +1852,6 @@ dependencies = [
  "quote",
  "rustversion",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "strum_macros"
-version = "0.26.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6cf59daf282c0a494ba14fd21610a0325f9f90ec9d1231dea26bcb1d696c946"
-dependencies = [
- "heck",
- "proc-macro2",
- "quote",
- "rustversion",
- "syn 2.0.58",
 ]
 
 [[package]]
@@ -2199,21 +2010,11 @@ checksum = "23d5919d7121237af683b7fa982450597b1eaa2643e597aec3b519e4e5ab3d62"
 [[package]]
 name = "turshi"
 version = "0.1.0"
-source = "git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations#51eefbf8a540f04173f0bf2c89b3f65415ed7877"
-dependencies = [
- "ark-ff",
- "hex",
- "o1-utils 0.1.0 (git+https://github.com/lambdaclass/proof-systems?branch=add-verifier-serializations)",
-]
-
-[[package]]
-name = "turshi"
-version = "0.1.0"
 source = "git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf#44e0d3b98b8747de54e595f53d97c035ff43167c"
 dependencies = [
  "ark-ff",
  "hex",
- "o1-utils 0.1.0 (git+https://github.com/openmina/proof-systems?branch=ledger-newtypes-rampup4-vrf)",
+ "o1-utils",
 ]
 
 [[package]]
@@ -2233,12 +2034,6 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
-
-[[package]]
-name = "unicode-segmentation"
-version = "1.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
 
 [[package]]
 name = "unicode-xid"
