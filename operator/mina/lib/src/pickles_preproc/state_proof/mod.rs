@@ -1,9 +1,8 @@
 pub mod messages_for_next_step_proof;
 pub mod statement;
 
-use messages_for_next_step_proof::MessagesForNextStepProof;
-use mina_tree::proofs::transaction::StepStatement;
 use serde::Deserialize;
+use statement::Statement;
 
 #[derive(Deserialize)]
 pub struct StateProof {
