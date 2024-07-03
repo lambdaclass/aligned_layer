@@ -1,12 +1,8 @@
-use std::array;
+pub mod messages_for_next_step_proof;
+pub mod statement;
 
-use ark_ff::biginteger::BigInteger256;
-use kimchi::mina_curves::pasta::{Fp, Pallas};
-use mina_tree::proofs::{
-    public_input::messages,
-    transaction::{InnerCurve, StepStatement},
-};
-use o1_utils::FieldHelpers;
+use messages_for_next_step_proof::MessagesForNextStepProof;
+use mina_tree::proofs::transaction::StepStatement;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -49,18 +45,6 @@ pub struct Evaluations {
     pub w: [Point; 15],
     pub z: Point,
     pub ft_eval1: Scalar,
-}
-
-#[derive(Deserialize)]
-pub struct Statement {
-    pub messages_for_next_step_proof: MessagesForNextStepProof,
-    pub proof_state: ProofState,
-}
-
-#[derive(Deserialize)]
-pub struct MessagesForNextStepProof {
-    pub challenge_polynomial_commitments: [Point; 2],
-    pub old_bulletproof_challenges: [[BulletproofChallenge; 16]; 2],
 }
 
 #[derive(Deserialize)]
@@ -125,60 +109,6 @@ pub struct MessagesForNextWrapProof {
 
 pub type Point = [String; 2]; // hex
 pub type Scalar = String; // hex
-
-impl<'a> Into<messages::MessagesForNextStepProof<'a, ()>> for MessagesForNextStepProof {
-    fn into(self) -> messages::MessagesForNextStepProof<'a, ()> {
-        messages::MessagesForNextStepProof {
-            app_state: &(),
-            // FIXME
-            dlog_plonk_index: (),
-            challenge_polynomial_commitments: string_arrays_to_inner_curve_vec(
-                &self.challenge_polynomial_commitments,
-            ),
-            old_bulletproof_challenges: bulletproof_challenges_array_to_field_matrix(
-                &self.old_bulletproof_challenges,
-            ),
-        }
-    }
-}
-
-fn string_arrays_to_inner_curve_vec(input: &[[String; 2]; 2]) -> Vec<InnerCurve<Fp>> {
-    input.iter().map(string_array_to_inner_curve).collect()
-}
-
-fn string_array_to_inner_curve(input: &[String; 2]) -> InnerCurve<Fp> {
-    let x = Fp::from_hex(&input[0]).unwrap();
-    let y = Fp::from_hex(&input[1]).unwrap();
-    let affine = Pallas::new(x, y, false);
-
-    InnerCurve::of_affine(affine)
-}
-
-fn bulletproof_challenges_array_to_field_matrix(
-    input: &[[BulletproofChallenge; 16]; 2],
-) -> Vec<[Fp; 16]> {
-    input
-        .iter()
-        .map(bulletproof_challenge_array_to_field_vec)
-        .collect()
-}
-
-fn bulletproof_challenge_array_to_field_vec(input: &[BulletproofChallenge; 16]) -> [Fp; 16] {
-    array::from_fn(|i| {
-        let inner = input[i].prechallenge.inner;
-        let limbs = [inner[0] as u64, inner[1] as u64, 0, 0];
-        Fp::new(BigInteger256::new(limbs))
-    })
-}
-
-impl Into<StepStatement> for Statement {
-    fn into(self) -> StepStatement {
-        StepStatement {
-            proof_state: self.proof_state.into(),
-            messages_for_next_wrap_proof: self.proof_state.messages_for_next_wrap_proof.into(),
-        }
-    }
-}
 
 pub fn parse(proof_json: &serde_json::Value) -> Result<StateProof, String> {
     serde_json::from_value(proof_json.to_owned())
