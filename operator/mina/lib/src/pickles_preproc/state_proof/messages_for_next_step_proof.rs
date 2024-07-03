@@ -1,5 +1,7 @@
+use std::rc::Rc;
+
 use kimchi::mina_curves::pasta::Fp;
-use mina_tree::proofs::{public_input::messages, transaction::InnerCurve};
+use mina_tree::proofs::transaction::{InnerCurve, ReducedMessagesForNextStepProof};
 use serde::Deserialize;
 
 use super::{
@@ -13,12 +15,10 @@ pub struct MessagesForNextStepProof {
     pub old_bulletproof_challenges: [[BulletproofChallenge; 16]; 2],
 }
 
-impl<'a> Into<messages::MessagesForNextStepProof<'a, ()>> for MessagesForNextStepProof {
-    fn into(self) -> messages::MessagesForNextStepProof<'a, ()> {
-        messages::MessagesForNextStepProof {
-            app_state: &(),
-            // FIXME
-            dlog_plonk_index: (),
+impl Into<ReducedMessagesForNextStepProof> for MessagesForNextStepProof {
+    fn into(self) -> ReducedMessagesForNextStepProof {
+        ReducedMessagesForNextStepProof {
+            app_state: Rc::new(()),
             challenge_polynomial_commitments: string_arrays_to_inner_curve_vec(
                 &self.challenge_polynomial_commitments,
             ),

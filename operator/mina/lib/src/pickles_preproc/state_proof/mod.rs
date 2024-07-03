@@ -3,7 +3,6 @@ pub mod messages_for_next_wrap_proof;
 pub mod statement;
 pub mod utils;
 
-use messages_for_next_wrap_proof::MessagesForNextWrapProof;
 use serde::Deserialize;
 use statement::Statement;
 
@@ -60,13 +59,6 @@ pub struct Prechallenge {
     // be two u64 limbs but are encoded with a sign.
     // We just need to do a cast to u64.
     pub inner: [i64; 2],
-}
-
-#[derive(Deserialize)]
-pub struct ProofState {
-    pub deferred_values: DeferredValues,
-    pub messages_for_next_wrap_proof: MessagesForNextWrapProof,
-    pub sponge_digest_before_evaluations: [u64; 4],
 }
 
 #[derive(Deserialize)]
