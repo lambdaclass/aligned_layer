@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use mina_p2p_messages::{binprot::BinProtRead as _, v2::StateHash};
 use protocol_state::ProtocolStateQuery;
 
@@ -10,8 +12,7 @@ pub fn parse_query_to_mina_block_header(
     let protocol_state_query: ProtocolStateQuery =
         serde_json::from_str(mina_protocol_state_query).unwrap();
     let protocol_state = &protocol_state_query.data.best_chain[0].protocol_state;
-    let previous_state_hash =
-        StateHash::binprot_read(&mut protocol_state.previous_state_hash.as_bytes()).unwrap();
+    let previous_state_hash = StateHash::from_str(&protocol_state.previous_state_hash).unwrap();
     assert_eq!(
         previous_state_hash.to_string(),
         protocol_state.previous_state_hash

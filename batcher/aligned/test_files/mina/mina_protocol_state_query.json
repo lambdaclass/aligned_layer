@@ -1,0 +1,58 @@
+{
+    "data": {
+        "bestChain": [
+            {
+                "protocolState": {
+                    "previousStateHash": "3NKSvjaGSKiQuAt8BP1b1VCpLbJc9RcEFjYCaBYsJJFdrtd6tpaV",
+                    "blockchainState": {
+                        "bodyReference": "36bda176656cc3be96c3d317db7b4ac06fdbc7f4eedcd6efdd20e28143d67421",
+                        "snarkedLedgerHash": "jx3ye7cdFTTvFV22wJWfCyrDwMcoWUonp1H3LSmXNG1DFmctM35",
+                        "date": "1720015456000",
+                        "stagedLedgerAuxHash": "UDRUFHSvxUAtV8sh7gzMVPqpbd46roG1wzWR6dYvB6RunPihom",
+                        "stagedLedgerHash": "jx3ye7cdFTTvFV22wJWfCyrDwMcoWUonp1H3LSmXNG1DFmctM35",
+                        "stagedLedgerPendingCoinbaseAux": "WAAeUjUnP9Q2JiabhJzJozcjiEmkZe8ob4cfFKSuq6pQSNmHh7",
+                        "stagedLedgerPendingCoinbaseHash": "2mzvU1MA5JjDUrLsKk6KFFj4CPn6bnHjN5Fi779U96JUbZNwoTvF",
+                        "stagedLedgerProofEmitted": false,
+                        "utcDate": "1720015456000"
+                    },
+                    "consensusState": {
+                        "blockHeight": "296372",
+                        "blockCreator": "B62qiy32p8kAKnny8ZFwoMhYpBppM1DWVCqAPBYNcXnsAHhnfAAuXgg",
+                        "blockStakeWinner": "B62qiy32p8kAKnny8ZFwoMhYpBppM1DWVCqAPBYNcXnsAHhnfAAuXgg",
+                        "blockchainLength": "296372",
+                        "coinbaseReceiever": "B62qiy32p8kAKnny8ZFwoMhYpBppM1DWVCqAPBYNcXnsAHhnfAAuXgg",
+                        "epoch": "0",
+                        "epochCount": "0",
+                        "hasAncestorInSameCheckpointWindow": true,
+                        "lastVrfOutput": "48HHqTLpPf8qcQQ7Js9U4jxAoX4omY2prxAZ18V4TWeqFPVgJULH",
+                        "minWindowDensity": "77",
+                        "slot": "0",
+                        "slotSinceGenesis": "445860",
+                        "superchargedCoinbase": true,
+                        "totalCurrency": "30000000001000",
+                        "nextEpochData": {
+                            "epochLength": "2",
+                            "lockCheckpoint": "3NKqaKwLMFvzrMU9i4LguPhTdPKfExNbD9GSgMu7ZcNF2mxVGT5a",
+                            "seed": "2vaJXTJckyEgDeTbMPfU3eWVuxonXNg9s1mnsoDyH6JFuSu7dEkn",
+                            "startCheckpoint": "3NK2tkzqqK5spR2sZ7tujjqPksL45M3UUrcA4WhCkeiPtnugyE2x",
+                            "ledger": {
+                                "hash": "jxjmYHK1tnGy5S6CDaLDTRrDbw17DmtEd6Jnw3L86QSsLm15w5g",
+                                "totalCurrency": "1404240804000001000"
+                            }
+                        },
+                        "stakingEpochData": {
+                            "epochLength": "1",
+                            "seed": "2vbdR3vZUxh8NFnsnrefko7YCiLUKNPUbQpqSQAFXFijtTjd3531",
+                            "lockCheckpoint": "3NK2tkzqqK5spR2sZ7tujjqPksL45M3UUrcA4WhCkeiPtnugyE2x",
+                            "startCheckpoint": "3NK2tkzqqK5spR2sZ7tujjqPksL45M3UUrcA4WhCkeiPtnugyE2x",
+                            "ledger": {
+                                "hash": "jxvdSnpgWjjERJFdcYNxChJ9F39v4tGrNSzDcaQXuXeJnicrYEP",
+                                "totalCurrency": "1397164660000001000"
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
