@@ -1,9 +1,7 @@
-use std::str::FromStr;
+pub mod header;
 
-use mina_p2p_messages::{binprot::BinProtRead as _, v2::StateHash};
-use protocol_state::ProtocolStateQuery;
-
-pub mod protocol_state;
+use header::protocol_state_query::ProtocolStateQuery;
+use mina_p2p_messages::v2::MinaStateProtocolStateValueStableV2;
 
 pub fn parse_query_to_mina_block_header(
     mina_protocol_state_query: &str,
@@ -11,12 +9,11 @@ pub fn parse_query_to_mina_block_header(
 ) {
     let protocol_state_query: ProtocolStateQuery =
         serde_json::from_str(mina_protocol_state_query).unwrap();
-    let protocol_state = &protocol_state_query.data.best_chain[0].protocol_state;
-    let previous_state_hash = StateHash::from_str(&protocol_state.previous_state_hash).unwrap();
-    assert_eq!(
-        previous_state_hash.to_string(),
-        protocol_state.previous_state_hash
-    );
+    let _protocol_state: MinaStateProtocolStateValueStableV2 = protocol_state_query.data.best_chain
+        [0]
+    .clone()
+    .protocol_state
+    .into();
 }
 
 #[cfg(test)]
