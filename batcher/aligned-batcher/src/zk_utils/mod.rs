@@ -83,5 +83,9 @@ pub(crate) fn verify(verification_data: &VerificationData) -> bool {
             // verifier. These checks are fast and if they aren't successful then the Pickles proof
             // isn't valid.
         }
+        ProvingSystemId::Kimchi => {
+            // TODO(gabrielbosio): add Kimchi checks
+            true
+        }
     }
 }

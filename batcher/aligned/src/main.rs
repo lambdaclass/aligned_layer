@@ -149,6 +149,8 @@ pub enum ProvingSystemArg {
     Risc0,
     #[clap(name = "Mina")]
     Mina,
+    #[clap(name = "Kimchi")]
+    Kimchi,
 }
 
 impl From<ProvingSystemArg> for ProvingSystemId {
@@ -162,6 +164,7 @@ impl From<ProvingSystemArg> for ProvingSystemId {
             ProvingSystemArg::Halo2IPA => ProvingSystemId::Halo2IPA,
             ProvingSystemArg::Risc0 => ProvingSystemId::Risc0,
             ProvingSystemArg::Mina => ProvingSystemId::Mina,
+            ProvingSystemArg::Kimchi => ProvingSystemId::Kimchi,
         }
     }
 }
@@ -387,7 +390,7 @@ fn verification_data_from_args(args: SubmitArgs) -> Result<VerificationData, Bat
                 args.pub_input_file_name,
             )?);
         }
-        ProvingSystemId::Mina => {
+        ProvingSystemId::Mina | ProvingSystemId::Kimchi => {
             pub_input = Some(read_file_option(
                 "--public_input",
                 args.pub_input_file_name,

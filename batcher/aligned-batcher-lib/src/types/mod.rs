@@ -16,6 +16,7 @@ pub enum ProvingSystemId {
     Halo2IPA,
     Risc0,
     Mina,
+    Kimchi,
 }
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
