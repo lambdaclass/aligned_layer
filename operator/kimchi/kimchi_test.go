@@ -21,17 +21,20 @@ func TestEcAddKimchiProofVerifies(t *testing.T) {
 		t.Errorf("could not read bytes from kimchi proof file")
 	}
 
-	pubInputFile, err := os.Open("lib/kimchi_verifier_index.bin")
+	pubInputBuffer := make([]byte, kimchi.MAX_PUB_INPUT_SIZE)
+	pubInputLen := 0
+
+	verifierIndexFile, err := os.Open("lib/kimchi_verifier_index.bin")
 	if err != nil {
 		t.Errorf("could not open kimchi aggregated public input file")
 	}
-	pubInputBuffer := make([]byte, kimchi.MAX_PUB_INPUT_SIZE)
-	pubInputLen, err := pubInputFile.Read(pubInputBuffer)
+	verifierIndexBuffer := make([]byte, kimchi.MAX_VERIFIER_INDEX_SIZE)
+	verifierIndexLen, err := verifierIndexFile.Read(verifierIndexBuffer)
 	if err != nil {
-		t.Errorf("could not read bytes from kimchi aggregated public input")
+		t.Errorf("could not read bytes from kimchi aggregated verifier index")
 	}
 
-	if !kimchi.VerifyKimchiProof(([kimchi.MAX_PROOF_SIZE]byte)(proofBuffer), uint(proofLen), ([kimchi.MAX_PUB_INPUT_SIZE]byte)(pubInputBuffer), uint(pubInputLen)) {
+	if !kimchi.VerifyKimchiProof(([kimchi.MAX_PROOF_SIZE]byte)(proofBuffer), uint(proofLen), ([kimchi.MAX_PUB_INPUT_SIZE]byte)(pubInputBuffer), uint(pubInputLen), ([kimchi.MAX_PUB_INPUT_SIZE]byte)(verifierIndexBuffer), uint(verifierIndexLen)) {
 		t.Errorf("proof did not verify")
 	}
 }

@@ -1,2 +1,5 @@
 /target
 
+libkimchi_verifier.so
+libkimchi_verifier.a
+libkimchi_verifier.dylib

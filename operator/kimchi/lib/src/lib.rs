@@ -12,9 +12,11 @@ use kimchi::{
     poly_commitment::{evaluation_proof::OpeningProof, srs::SRS},
     verifier_index::VerifierIndex,
 };
+use o1_utils::FieldHelpers;
 
 const MAX_PROOF_SIZE: usize = 10 * 1024;
 const MAX_PUB_INPUT_SIZE: usize = 50 * 1024;
+const MAX_VERIFIER_INDEX_SIZE: usize = 50 * 1024;
 
 type SpongeParams = PlonkSpongeConstantsKimchi;
 type BaseSponge = DefaultFqSponge<VestaParameters, SpongeParams>;
@@ -26,6 +28,8 @@ pub extern "C" fn verify_kimchi_proof_ffi(
     proof_len: usize,
     pub_input_bytes: &[u8; MAX_PUB_INPUT_SIZE],
     pub_input_len: usize,
+    verifier_index_bytes: &[u8; MAX_VERIFIER_INDEX_SIZE],
+    verifier_index_len: usize,
 ) -> bool {
     let proof = if let Ok(proof) = rmp_serde::from_slice(&proof_bytes[..proof_len]) {
         proof
@@ -33,8 +37,17 @@ pub extern "C" fn verify_kimchi_proof_ffi(
         return false;
     };
 
-    let verifier_index = if let Ok(verifier_index) =
+    let pub_input = if let Ok(pub_input) =
         deserialize_kimchi_pub_input(pub_input_bytes[..pub_input_len].to_vec())
+    {
+        pub_input
+    } else {
+        return false;
+    };
+
+    deserialize_kimchi_verifier_index(verifier_index_bytes[..verifier_index_len].to_vec()).unwrap();
+    let verifier_index = if let Ok(verifier_index) =
+        deserialize_kimchi_verifier_index(verifier_index_bytes[..verifier_index_len].to_vec())
     {
         verifier_index
     } else {
@@ -47,16 +60,34 @@ pub extern "C" fn verify_kimchi_proof_ffi(
         &group_map,
         &verifier_index,
         &proof,
-        &Vec::new(),
+        &pub_input,
     )
     .is_ok()
 }
 
-fn deserialize_kimchi_pub_input(
-    pub_input_bytes: Vec<u8>,
+fn deserialize_kimchi_pub_input(pub_input_bytes: Vec<u8>) -> Result<Vec<Fp>, String> {
+    if pub_input_bytes.len() == 0 {
+        return Ok(Vec::new());
+    }
+
+    let pub_input_str: Vec<String> = rmp_serde::from_slice(&pub_input_bytes)
+        .map_err(|err| format!("Error deserializing public input as string vector: {err}"))?;
+    let pub_input: Vec<_> = pub_input_str
+        .iter()
+        .map(|field_str| {
+            Fp::from_hex(&field_str)
+                .map_err(|err| format!("Error deserializing public input as field vector: {err}"))
+        })
+        .collect::<Result<Vec<_>, String>>()?;
+
+    Ok(pub_input)
+}
+
+fn deserialize_kimchi_verifier_index(
+    verifier_index_bytes: Vec<u8>,
 ) -> Result<VerifierIndex<Vesta, OpeningProof<Vesta>>, Box<dyn std::error::Error>> {
     let mut verifier_index: VerifierIndex<Vesta, OpeningProof<Vesta>> =
-        rmp_serde::from_slice(&pub_input_bytes)?;
+        rmp_serde::from_slice(&verifier_index_bytes)?;
 
     let mut srs = SRS::<Vesta>::create(verifier_index.max_poly_size);
     // add necessary fields to verifier index
@@ -76,8 +107,10 @@ mod test {
     use kimchi::proof::ProverProof;
     use kimchi::{poly_commitment::commitment::CommitmentCurve, verifier::verify};
 
-    const KIMCHI_PROOF: &[u8] = include_bytes!("../kimchi_ec_add.proof");
-    const KIMCHI_VERIFIER_INDEX: &[u8] = include_bytes!("../kimchi_verifier_index.bin");
+    const KIMCHI_PROOF: &[u8] =
+        include_bytes!("../../../../batcher/aligned/test_files/kimchi/kimchi_ec_add.proof");
+    const KIMCHI_VERIFIER_INDEX: &[u8] =
+        include_bytes!("../../../../batcher/aligned/test_files/kimchi/kimchi_verifier_index.bin");
 
     #[test]
     fn kimchi_ec_add_proof_verifies() {
@@ -85,12 +118,18 @@ mod test {
         let proof_size = KIMCHI_PROOF.len();
         proof_buffer[..proof_size].clone_from_slice(KIMCHI_PROOF);
 
-        let mut pub_input_buffer = [0u8; super::MAX_PUB_INPUT_SIZE];
-        let pub_input_size = KIMCHI_VERIFIER_INDEX.len();
-        pub_input_buffer[..pub_input_size].clone_from_slice(KIMCHI_VERIFIER_INDEX);
+        let mut verifier_index_buffer = [0u8; super::MAX_PUB_INPUT_SIZE];
+        let verifier_index_size = KIMCHI_VERIFIER_INDEX.len();
+        verifier_index_buffer[..verifier_index_size].clone_from_slice(KIMCHI_VERIFIER_INDEX);
 
-        let result =
-            verify_kimchi_proof_ffi(&proof_buffer, proof_size, &pub_input_buffer, pub_input_size);
+        let result = verify_kimchi_proof_ffi(
+            &proof_buffer,
+            proof_size,
+            &[0u8; MAX_PUB_INPUT_SIZE],
+            0,
+            &verifier_index_buffer,
+            verifier_index_size,
+        );
 
         assert!(result)
     }
@@ -124,7 +163,8 @@ mod test {
 
         // serialize and then deserialize aggregated kimchi pub inputs
         let pub_input_bytes = rmp_serde::to_vec(&verifier_index).unwrap();
-        let deserialized_verifier_index = deserialize_kimchi_pub_input(pub_input_bytes).unwrap();
+        let deserialized_verifier_index =
+            deserialize_kimchi_verifier_index(pub_input_bytes).unwrap();
         // verify the proof with the deserialized pub input (verifier index)
         assert!(
             verify::<Vesta, BaseSponge, ScalarSponge, OpeningProof<Vesta>>(

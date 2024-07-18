@@ -364,12 +364,16 @@ func (o *Operator) verify(verificationData VerificationData, results chan bool) 
 	case common.Kimchi:
 		proofLen := (uint)(len(verificationData.Proof))
 		pubInputLen := (uint)(len(verificationData.PubInput))
+		verifierIndexLen := (uint)(len(verificationData.VerificationKey))
+
 		proofBuffer := make([]byte, kimchi.MAX_PROOF_SIZE)
 		copy(proofBuffer, verificationData.Proof)
 		pubInputBuffer := make([]byte, kimchi.MAX_PUB_INPUT_SIZE)
 		copy(pubInputBuffer, verificationData.PubInput)
+		verifierIndexBuffer := make([]byte, kimchi.MAX_VERIFIER_INDEX_SIZE)
+		copy(verifierIndexBuffer, verificationData.VerificationKey)
 
-		verificationResult := kimchi.VerifyKimchiProof(([kimchi.MAX_PROOF_SIZE]byte)(proofBuffer), proofLen, ([kimchi.MAX_PUB_INPUT_SIZE]byte)(pubInputBuffer), (uint)(pubInputLen))
+		verificationResult := kimchi.VerifyKimchiProof(([kimchi.MAX_PROOF_SIZE]byte)(proofBuffer), proofLen, ([kimchi.MAX_PUB_INPUT_SIZE]byte)(pubInputBuffer), (uint)(pubInputLen), ([kimchi.MAX_VERIFIER_INDEX_SIZE]byte)(verifierIndexBuffer), (uint)(verifierIndexLen))
 		o.Logger.Infof("Kimchi proof verification result: %t", verificationResult)
 		results <- verificationResult
 	default:

@@ -383,14 +383,15 @@ fn verification_data_from_args(args: SubmitArgs) -> Result<VerificationData, Bat
         | ProvingSystemId::Halo2IPA
         | ProvingSystemId::GnarkPlonkBls12_381
         | ProvingSystemId::GnarkPlonkBn254
-        | ProvingSystemId::Groth16Bn254 => {
+        | ProvingSystemId::Groth16Bn254
+        | ProvingSystemId::Kimchi => {
             verification_key = Some(read_file_option("--vk", args.verification_key_file_name)?);
             pub_input = Some(read_file_option(
                 "--public_input",
                 args.pub_input_file_name,
             )?);
         }
-        ProvingSystemId::Mina | ProvingSystemId::Kimchi => {
+        ProvingSystemId::Mina => {
             pub_input = Some(read_file_option(
                 "--public_input",
                 args.pub_input_file_name,
