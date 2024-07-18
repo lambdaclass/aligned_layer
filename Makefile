@@ -356,6 +356,31 @@ batcher_send_mina_burst:
 		--repetitions 15 \
 		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
 
+batcher_send_kimchi_task:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/kimchi_verifier_index.bin \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
+batcher_send_kimchi_task_bad:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/bad_kimchi_verifier_index.bin \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
+batcher_send_kimchi_burst:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/kimchi_verifier_index.bin \
+		--repetitions 15 \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
 __TASK_SENDERS__:
  # TODO add a default proving system
 

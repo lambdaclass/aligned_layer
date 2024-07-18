@@ -15,7 +15,7 @@ const (
 	Halo2KZG
 	Halo2IPA
 	Risc0
-	Mina,
+	Mina
 	Kimchi
 )
 
