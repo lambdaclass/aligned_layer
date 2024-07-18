@@ -709,6 +709,27 @@ test_mina_go_bindings_linux: build_mina_linux
 	@echo "Testing Mina Go bindings..."
 	go test ./operator/mina/... -v
 
+__KIMCHI_FFI_:
+build_kimchi_macos:
+	@cd operator/kimchi/lib && cargo build --release
+	@cp operator/kimchi/lib/target/release/libkimchi_verifier_ffi.dylib operator/kimchi/lib/libkimchi_verifier.dylib
+
+build_kimchi_linux:
+	@cd operator/kimchi/lib && cargo build --release
+	@cp operator/kimchi/lib/target/release/libkimchi_verifier_ffi.so operator/kimchi/lib/libkimchi_verifier.so
+
+test_kimchi_rust_ffi:
+	@echo "Testing Kimchi Rust FFI source code..."
+	@cd operator/kimchi/lib && cargo t --release
+
+test_kimchi_go_bindings_macos: build_kimchi_macos
+	@echo "Testing Kimchi Go bindings..."
+	go test ./operator/kimchi/... -v
+
+test_kimchi_go_bindings_linux: build_kimchi_linux
+	@echo "Testing Kimchi Go bindings..."
+	go test ./operator/kimchi/... -v
+
 __BUILD_ALL_FFI__:
 
 build_all_ffi: ## Build all FFIs
