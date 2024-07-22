@@ -356,6 +356,34 @@ batcher_send_mina_burst:
 		--repetitions 15 \
 		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
 
+batcher_send_kimchi_task:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/empty_public_input.bin \
+		--vk test_files/kimchi/kimchi_verifier_index.bin \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
+batcher_send_kimchi_task_bad:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/empty_public_input.bin \
+		--vk test_files/kimchi/bad_kimchi_verifier_index.bin \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
+batcher_send_kimchi_burst:
+	@echo "Sending Kimchi task to Batcher..."
+	@cd batcher/aligned/ && cargo run --release -- submit \
+		--proving_system Kimchi \
+		--proof test_files/kimchi/kimchi_ec_add.proof \
+		--public_input test_files/kimchi/empty_public_input.bin \
+		--vk test_files/kimchi/kimchi_verifier_index.bin \
+		--repetitions 15 \
+		--proof_generator_addr 0x66f9664f97F2b50F62D13eA064982f936dE76657
+
 __TASK_SENDERS__:
  # TODO add a default proving system
 
@@ -708,6 +736,27 @@ test_mina_go_bindings_macos: build_mina_macos
 test_mina_go_bindings_linux: build_mina_linux
 	@echo "Testing Mina Go bindings..."
 	go test ./operator/mina/... -v
+
+__KIMCHI_FFI_:
+build_kimchi_macos:
+	@cd operator/kimchi/lib && cargo build --release
+	@cp operator/kimchi/lib/target/release/libkimchi_verifier_ffi.dylib operator/kimchi/lib/libkimchi_verifier.dylib
+
+build_kimchi_linux:
+	@cd operator/kimchi/lib && cargo build --release
+	@cp operator/kimchi/lib/target/release/libkimchi_verifier_ffi.so operator/kimchi/lib/libkimchi_verifier.so
+
+test_kimchi_rust_ffi:
+	@echo "Testing Kimchi Rust FFI source code..."
+	@cd operator/kimchi/lib && cargo t --release
+
+test_kimchi_go_bindings_macos: build_kimchi_macos
+	@echo "Testing Kimchi Go bindings..."
+	go test ./operator/kimchi/... -v
+
+test_kimchi_go_bindings_linux: build_kimchi_linux
+	@echo "Testing Kimchi Go bindings..."
+	go test ./operator/kimchi/... -v
 
 __BUILD_ALL_FFI__:
 
