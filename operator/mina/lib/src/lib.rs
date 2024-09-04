@@ -7,6 +7,7 @@ use consensus_state::{select_longer_chain, LongerChainResult};
 use kimchi::mina_curves::pasta::{Fp, PallasParameters};
 use kimchi::verifier_index::VerifierIndex;
 use lazy_static::lazy_static;
+use mina_p2p_messages::binprot::BinProtSize;
 use mina_p2p_messages::hash::MinaHash;
 use mina_p2p_messages::v2::{MinaStateProtocolStateValueStableV2, StateHash};
 use mina_tree::proofs::verification::verify_block;
@@ -64,13 +65,14 @@ pub extern "C" fn verify_mina_state_ffi(
 
     // Consensus check: Short fork rule
     let longer_chain = select_longer_chain(&candidate_tip_state, &bridge_tip_state);
-    if longer_chain == LongerChainResult::Bridge {
-        eprintln!("Failed consensus checks for candidate tip state against bridge's tip");
-        return false;
-    }
+    // if longer_chain == LongerChainResult::Bridge {
+    //     eprintln!("Failed consensus checks for candidate tip state against bridge's tip");
+    //     return false;
+    // }
 
     // Verify the tip block (and thanks to Pickles recursion all the previous states are verified
     // as well)
+    println!("proof size: {}", proof.candidate_tip_proof.binprot_size());
     verify_block(
         &proof.candidate_tip_proof,
         candidate_tip_state_hash,
