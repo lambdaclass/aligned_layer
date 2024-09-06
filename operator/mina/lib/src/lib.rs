@@ -4,6 +4,8 @@
 mod consensus_state;
 mod verifier_index;
 
+use std::time::SystemTime;
+
 use mina_bridge_core::proof::state_proof::{MinaStateProof, MinaStatePubInputs};
 
 use ark_ec::short_weierstrass_jacobian::GroupAffine;
@@ -11,6 +13,7 @@ use consensus_state::{select_secure_chain, ChainResult};
 use kimchi::mina_curves::pasta::{Fp, PallasParameters};
 use kimchi::verifier_index::VerifierIndex;
 use lazy_static::lazy_static;
+use mina_p2p_messages::binprot::BinProtSize;
 use mina_p2p_messages::hash::MinaHash;
 use mina_p2p_messages::v2::{MinaStateProtocolStateValueStableV2, StateHash};
 use mina_tree::proofs::verification::verify_block;
@@ -40,6 +43,7 @@ pub extern "C" fn verify_mina_state_ffi(
             return false;
         }
     };
+
     let pub_inputs: MinaStatePubInputs =
         match bincode::deserialize(&pub_input_buffer[..pub_input_len]) {
             Ok(pub_inputs) => pub_inputs,
@@ -59,10 +63,15 @@ pub extern "C" fn verify_mina_state_ffi(
             }
         };
 
+    let srs_computation_start_time = SystemTime::now();
     // TODO(xqft): srs should be a static, but can't make it so because it doesn't have all its
     // parameters initialized.
     let srs = get_srs::<Fp>();
     let srs = srs.lock().unwrap();
+    println!(
+        "SRS computation time: {} ms",
+        srs_computation_start_time.elapsed().unwrap().as_millis()
+    );
 
     // Consensus checks
     let secure_chain = match select_secure_chain(&candidate_tip_state, &bridge_tip_state) {
@@ -79,12 +88,22 @@ pub extern "C" fn verify_mina_state_ffi(
 
     // Verify the tip block (and thanks to Pickles recursion all the previous states are verified
     // as well)
-    verify_block(
+    println!(
+        "proof size: {} bytes",
+        proof.candidate_tip_proof.binprot_size()
+    );
+    let block_verification_start_time = SystemTime::now();
+    let ret = verify_block(
         &proof.candidate_tip_proof,
         candidate_tip_state_hash,
         &VERIFIER_INDEX,
         &srs,
-    )
+    );
+    println!(
+        "OpenMina block verification time: {} ms",
+        block_verification_start_time.elapsed().unwrap().as_millis()
+    );
+    ret
 }
 
 /// Checks public inputs against the proof data, making sure the inputs correspond to the proofs
