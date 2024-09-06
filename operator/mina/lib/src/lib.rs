@@ -1,5 +1,7 @@
 mod consensus_state;
 
+use std::time::SystemTime;
+
 use mina_bridge_core::proof::state_proof::{MinaStateProof, MinaStatePubInputs};
 
 use ark_ec::short_weierstrass_jacobian::GroupAffine;
@@ -39,6 +41,7 @@ pub extern "C" fn verify_mina_state_ffi(
             return false;
         }
     };
+
     let pub_inputs: MinaStatePubInputs =
         match bincode::deserialize(&pub_input_buffer[..pub_input_len]) {
             Ok(pub_inputs) => pub_inputs,
@@ -58,27 +61,41 @@ pub extern "C" fn verify_mina_state_ffi(
             }
         };
 
+    let srs_computation_start_time = SystemTime::now();
     // TODO(xqft): srs should be a static, but can't make it so because it doesn't have all its
     // parameters initialized.
     let srs = get_srs::<Fp>();
     let srs = srs.lock().unwrap();
+    println!(
+        "SRS computation time: {} ms",
+        srs_computation_start_time.elapsed().unwrap().as_millis()
+    );
 
     // Consensus check: Short fork rule
     let longer_chain = select_longer_chain(&candidate_tip_state, &bridge_tip_state);
-    // if longer_chain == LongerChainResult::Bridge {
-    //     eprintln!("Failed consensus checks for candidate tip state against bridge's tip");
-    //     return false;
-    // }
+    if longer_chain == LongerChainResult::Bridge {
+        eprintln!("Failed consensus checks for candidate tip state against bridge's tip");
+        return false;
+    }
 
     // Verify the tip block (and thanks to Pickles recursion all the previous states are verified
     // as well)
-    println!("proof size: {}", proof.candidate_tip_proof.binprot_size());
-    verify_block(
+    println!(
+        "proof size: {} bytes",
+        proof.candidate_tip_proof.binprot_size()
+    );
+    let block_verification_start_time = SystemTime::now();
+    let ret = verify_block(
         &proof.candidate_tip_proof,
         candidate_tip_state_hash,
         &VERIFIER_INDEX,
         &srs,
-    )
+    );
+    println!(
+        "OpenMina block verification time: {} ms",
+        block_verification_start_time.elapsed().unwrap().as_millis()
+    );
+    ret
 }
 
 /// Checks public inputs against the proof data, making sure the inputs correspond to the proofs
