@@ -208,7 +208,7 @@ contract AlignedLayerServiceManager is
         ) {
             batchIdentifierHash = batchMerkleRoot;
         } else {
-            batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, msg.sender));
+            batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
         }
 
         if (batchesState[batchIdentifierHash].taskCreatedBlock == 0) {
