@@ -311,7 +311,7 @@ async fn _is_proof_verified(
     let contract_address = match chain {
         Chain::Devnet => "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
         // If we re-deploy the Aligned SM contract we need to change this value to the new contract address
-        Chain::Holesky => "0x0970d63D8aB7c142A1E0CDd9E5fb71f07090B5f2",
+        Chain::Holesky => "0x38aCaE99d1f0C00D1c598571205eb385aA5fD7Dc",
         Chain::HoleskyStage => "0x9C5231FC88059C086Ea95712d105A2026048c39B",
     };
 
