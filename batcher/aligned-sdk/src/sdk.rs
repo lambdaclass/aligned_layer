@@ -315,6 +315,11 @@ async fn _is_proof_verified(
         Chain::HoleskyStage => "0x9C5231FC88059C086Ea95712d105A2026048c39B",
     };
 
+    info!(
+        "batch merkle root: {}",
+        format!("{:02x?}", aligned_verification_data.batch_merkle_root)
+    );
+
     let payment_service_addr = payment_service_addr
         .parse::<Address>()
         .map_err(|e| errors::VerificationError::HexDecodingError(e.to_string()))?;
