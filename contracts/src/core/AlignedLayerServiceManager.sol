@@ -53,14 +53,7 @@ contract AlignedLayerServiceManager is
     }
 
     function createNewTask(bytes32 batchMerkleRoot, string calldata batchDataPointer) external payable {
-        bytes32 batchIdentifier;
-        if (
-            block.number < 2_268_375 // TODO set number of blocks
-        ) {
-            batchIdentifier = batchMerkleRoot;
-        } else {
-            batchIdentifier = keccak256(abi.encodePacked(batchMerkleRoot, msg.sender));
-        }
+        bytes32 batchIdentifier = keccak256(abi.encodePacked(batchMerkleRoot, msg.sender));
 
         require(batchesState[batchIdentifier].taskCreatedBlock == 0, "Batch was already submitted");
 
@@ -78,8 +71,6 @@ contract AlignedLayerServiceManager is
 
         batchesState[batchIdentifier] = batchState;
 
-        // old event for smooth Operator upgradeability:
-        emit NewBatch(batchMerkleRoot, uint32(block.number), batchDataPointer);
         emit NewBatchV2(batchMerkleRoot, msg.sender, uint32(block.number), batchDataPointer);
     }
 
@@ -213,23 +204,15 @@ contract AlignedLayerServiceManager is
         uint256 verificationDataBatchIndex,
         address senderAddress
     ) external view returns (bool) {
-        // Temporary solution: Add the same condition than `createNewTask` to define a batch identifier.
-        bytes32 batchIdentifierHash;
-        if (
-            block.number < 2_268_375 // TODO set number of blocks
-        ) {
-            batchIdentifierHash = batchMerkleRoot;
-        } else {
-            batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
+        bytes32 batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
+
+        if (batchesState[batchIdentifierHash].taskCreatedBlock == 0) {
+            return false;
         }
 
-        // if (batchesState[batchIdentifierHash].taskCreatedBlock == 0) {
-        //     return false;
-        // }
-
-        // if (!batchesState[batchIdentifierHash].responded) {
-        //     return false;
-        // }
+        if (!batchesState[batchIdentifierHash].responded) {
+            return false;
+        }
 
         bytes memory leaf =
             abi.encodePacked(proofCommitment, pubInputCommitment, provingSystemAuxDataCommitment, proofGeneratorAddr);
