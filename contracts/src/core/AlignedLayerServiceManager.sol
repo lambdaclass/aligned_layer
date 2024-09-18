@@ -191,6 +191,18 @@ contract AlignedLayerServiceManager is
         payable(msg.sender).transfer(txCost);
     }
 
+    function taskCreatedBlock(bytes32 batchMerkleRoot, address senderAddress) external view returns (uint256) {
+        bytes32 batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
+
+        return batchesState[batchIdentifierHash].taskCreatedBlock;
+    }
+
+    function responded(bytes32 batchMerkleRoot, address senderAddress) external view returns (bool) {
+        bytes32 batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
+
+        return batchesState[batchIdentifierHash].responded;
+    }
+
     function verifyBatchInclusion(
         bytes32 proofCommitment,
         bytes32 pubInputCommitment,
@@ -211,13 +223,13 @@ contract AlignedLayerServiceManager is
             batchIdentifierHash = keccak256(abi.encodePacked(batchMerkleRoot, senderAddress));
         }
 
-        if (batchesState[batchIdentifierHash].taskCreatedBlock == 0) {
-            return false;
-        }
+        // if (batchesState[batchIdentifierHash].taskCreatedBlock == 0) {
+        //     return false;
+        // }
 
-        if (!batchesState[batchIdentifierHash].responded) {
-            return false;
-        }
+        // if (!batchesState[batchIdentifierHash].responded) {
+        //     return false;
+        // }
 
         bytes memory leaf =
             abi.encodePacked(proofCommitment, pubInputCommitment, provingSystemAuxDataCommitment, proofGeneratorAddr);
