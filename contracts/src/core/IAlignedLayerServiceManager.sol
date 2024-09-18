@@ -4,23 +4,18 @@ pragma solidity =0.8.12;
 import {IBLSSignatureChecker} from "eigenlayer-middleware/interfaces/IBLSSignatureChecker.sol";
 
 interface IAlignedLayerServiceManager {
-    function createNewTask(
-        bytes32 batchMerkleRoot,
-        string calldata batchDataPointer
-    ) external payable;
+    function createNewTask(bytes32 batchMerkleRoot, string calldata batchDataPointer) external payable;
 
     // old respondToTask for smooth upgradeability:
     function respondToTask(
         bytes32 batchMerkleRoot,
-        IBLSSignatureChecker.NonSignerStakesAndSignature
-            memory nonSignerStakesAndSignature
+        IBLSSignatureChecker.NonSignerStakesAndSignature memory nonSignerStakesAndSignature
     ) external;
 
     function respondToTaskV2(
         bytes32 batchMerkleRoot,
         address senderAddress,
-        IBLSSignatureChecker.NonSignerStakesAndSignature
-            memory nonSignerStakesAndSignature
+        IBLSSignatureChecker.NonSignerStakesAndSignature memory nonSignerStakesAndSignature
     ) external;
 
     function verifyBatchInclusion(
@@ -35,4 +30,8 @@ interface IAlignedLayerServiceManager {
     ) external view returns (bool);
 
     function balanceOf(address account) external view returns (uint256);
+
+    function taskCreatedBlock(bytes32 batchMerkleRoot, address senderAddress) external view returns (uint256);
+
+    function responded(bytes32 batchMerkleRoot, address senderAddress) external view returns (bool);
 }

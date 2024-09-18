@@ -334,6 +334,20 @@ async fn _is_proof_verified(
 
     let service_manager = aligned_service_manager(eth_rpc_provider, contract_address).await?;
 
+    let task_created_call = service_manager.task_created_block(
+        aligned_verification_data.batch_merkle_root,
+        payment_service_addr,
+    );
+
+    info!("task created block: {}", task_created_call.await.unwrap());
+
+    let responded_call = service_manager.responded(
+        aligned_verification_data.batch_merkle_root,
+        payment_service_addr,
+    );
+
+    info!("responded: {}", responded_call.await.unwrap());
+
     let call = service_manager.verify_batch_inclusion(
         verification_data_comm.proof_commitment,
         verification_data_comm.pub_input_commitment,
